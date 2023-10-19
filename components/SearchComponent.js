@@ -1,33 +1,39 @@
 import React, { useState } from "react";
-import { View, TextInput, FlatList, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TextInput,
+  FlatList,
+  Text,
+  StyleSheet,
+  Pressable,
+} from "react-native";
+
+import { useNavigation } from "@react-navigation/native";
 
 const SearchComponent = ({ doctors }) => {
   const [searchText, setSearchText] = useState("");
+  const navigation = useNavigation();
 
   const handleSearch = (text) => {
     setSearchText(text);
   };
 
-  // const normalizedSearchText = searchText.toLowerCase();
-  // const filteredDoctors = doctors.filter(
-  //   (doctor) =>
-  //     doctor.name.toLowerCase().includes(normalizedSearchText) ||
-  //     doctor.specialty.toLowerCase().includes(normalizedSearchText) ||
-  //     doctor.location.toLowerCase().includes(normalizedSearchText)
-  // );
+  const normalizedSearchText = searchText.toLowerCase();
 
-  // Matches one or more text (case-insensitive)
-  const searchQuery = new RegExp(`[${searchText}]+`, "i");
+  const filteredDoctors = doctors.filter(
+    (doctor) =>
+      doctor.name.toLowerCase().includes(normalizedSearchText) ||
+      doctor.specialty.toLowerCase().includes(normalizedSearchText) ||
+      doctor.location.toLowerCase().includes(normalizedSearchText)
+  );
+  console.log(filteredDoctors);
 
-  const filteredDoctors = doctors.filter((doctor) => {
-    const fieldsToSearch = [doctor.name, doctor.specialty, doctor.location];
-
-    // If either name, specialty, matches with the query, return it
-    return fieldsToSearch.some((field) => searchQuery.test(field));
-
-    // If only the doctor name should be matched
-    // return searchQuery.test(doctor.name),
-  });
+  const handleDoctorPress = (doctor) => {
+    navigation.navigate("Map", {
+      docLatitude: doctor.latitude,
+      docLongitude: doctor.longitude,
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -49,12 +55,17 @@ const SearchComponent = ({ doctors }) => {
             data={filteredDoctors}
             keyExtractor={(item) => item.name}
             renderItem={({ item }) => (
-              <View style={styles.doctorCard}>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.doctorCard,
+                  pressed ? styles.doctorCardPressed : null,
+                ]}
+                onPress={() => handleDoctorPress(item)}
+              >
                 <Text style={styles.doctorSpecialty}>{item.specialty}</Text>
                 <Text style={styles.doctorName}> {item.name}</Text>
-
                 <Text style={styles.doctorLocation}>{item.location}</Text>
-              </View>
+              </Pressable>
             )}
           />
         )}
@@ -115,6 +126,10 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     fontSize: 15,
     color: "gray",
+  },
+  doctorCardPressed: {
+    // Style to apply when pressed
+    backgroundColor: "lightgray", // Change the background color when pressed
   },
   noResultsText: {
     textAlign: "center",
