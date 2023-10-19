@@ -26,7 +26,6 @@ const SearchComponent = ({ doctors }) => {
     // Check if any field matches the regular expression
     return fieldsToSearch.some((field) => searchQuery.test(field));
   });
-  console.log(filteredDoctors);
 
   const handleDoctorPress = (doctor) => {
     navigation.navigate("Map", {
@@ -98,7 +97,7 @@ const styles = StyleSheet.create({
     padding: 16,
     // paddingLeft: 50,
     // paddingRight: "auto",
-    paddingRight: 120,
+    paddingRight: 50,
     marginBottom: 7,
     borderRadius: 8,
   },

@@ -2,7 +2,7 @@
 import * as Location from "expo-location";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Polyline } from "react-native-maps";
 
 import { doctors } from "../constants/doctors";
 
@@ -39,6 +39,18 @@ const MapScreen = ({ route }) => {
 
     fetchUserLocation();
   }, []);
+
+  const startLocation = {
+    latitude: userLocation.latitude, // Replace with the actual latitude of the starting point
+    longitude: userLocation.longitude, // Replace with the actual longitude of the starting point
+  };
+
+  const endLocation = {
+    latitude: 15.14122572831936, // Replace with the actual latitude of the ending point
+    longitude: 120.58918808196394, // Replace with the actual longitude of the ending point
+  };
+
+  const routeCoordinates = [startLocation, endLocation];
 
   return (
     <View style={styles.container}>
@@ -104,6 +116,11 @@ const MapScreen = ({ route }) => {
             description="This is the doctor's location"
           />
         )}
+        <Polyline
+          coordinates={routeCoordinates}
+          strokeWidth={5} // Adjust the width of the polyline as needed
+          strokeColor="#00f" // Adjust the color of the polyline as needed
+        />
       </MapView>
     </View>
   );
