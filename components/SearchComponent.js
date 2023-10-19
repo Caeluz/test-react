@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, TextInput, FlatList, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TextInput,
+  FlatList,
+  Text,
+  StyleSheet,
+  Pressable,
+} from "react-native";
 
 const SearchComponent = ({ doctors }) => {
   const [searchText, setSearchText] = useState("");
@@ -17,7 +24,7 @@ const SearchComponent = ({ doctors }) => {
   // );
 
   // Matches one or more text (case-insensitive)
-  const searchQuery = new RegExp(`[${searchText}]+`, "i");
+  const searchQuery = new RegExp(searchText, "gi");
 
   const filteredDoctors = doctors.filter((doctor) => {
     const fieldsToSearch = [doctor.name, doctor.specialty, doctor.location];
@@ -40,21 +47,26 @@ const SearchComponent = ({ doctors }) => {
         />
       </View>
       <View style={styles.resultContainer}>
-        {filteredDoctors.length === 0 ? (
+        {searchText && filteredDoctors.length === 0 ? (
           <Text style={styles.noResultsText}>
             No doctors match your search criteria.
           </Text>
         ) : (
           <FlatList
-            data={filteredDoctors}
+            data={searchText ? filteredDoctors : doctors}
             keyExtractor={(item) => item.name}
             renderItem={({ item }) => (
-              <View style={styles.doctorCard}>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.doctorCard,
+                  pressed && { opacity: 0.5 },
+                ]}
+              >
                 <Text style={styles.doctorSpecialty}>{item.specialty}</Text>
                 <Text style={styles.doctorName}> {item.name}</Text>
 
                 <Text style={styles.doctorLocation}>{item.location}</Text>
-              </View>
+              </Pressable>
             )}
           />
         )}
@@ -83,11 +95,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   doctorCard: {
+    flex: 1,
     backgroundColor: "white",
     padding: 16,
     // paddingLeft: 50,
     // paddingRight: "auto",
-    paddingRight: 120,
+    // paddingRight: 120,
     marginBottom: 7,
     borderRadius: 8,
   },
