@@ -18,14 +18,14 @@ const SearchComponent = ({ doctors }) => {
     setSearchText(text);
   };
 
-  const normalizedSearchText = searchText.toLowerCase();
+  const searchQuery = new RegExp(searchText, "i");
 
-  const filteredDoctors = doctors.filter(
-    (doctor) =>
-      doctor.name.toLowerCase().includes(normalizedSearchText) ||
-      doctor.specialty.toLowerCase().includes(normalizedSearchText) ||
-      doctor.location.toLowerCase().includes(normalizedSearchText)
-  );
+  const filteredDoctors = doctors.filter((doctor) => {
+    const fieldsToSearch = [doctor.name, doctor.specialty, doctor.location];
+
+    // Check if any field matches the regular expression
+    return fieldsToSearch.some((field) => searchQuery.test(field));
+  });
   console.log(filteredDoctors);
 
   const handleDoctorPress = (doctor) => {
