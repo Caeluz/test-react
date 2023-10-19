@@ -5,10 +5,10 @@ import React from "react";
 import Home from "./screens/Home";
 import Map from "./screens/Map";
 import PedometerView from "./screens/Pedometer";
+import Search from "./screens/Search";
+import SleepTracker from "./screens/SleepTracker";
 import Steps from "./screens/Steps";
 import Test from "./screens/Test";
-import SleepTracker from "./screens/SleepTracker";
-import Search from "./screens/SearchScreen";
 
 const Stack = createNativeStackNavigator();
 
