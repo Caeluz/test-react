@@ -8,13 +8,26 @@ const SearchComponent = ({ doctors }) => {
     setSearchText(text);
   };
 
-  const normalizedSearchText = searchText.toLowerCase();
-  const filteredDoctors = doctors.filter(
-    (doctor) =>
-      doctor.name.toLowerCase().includes(normalizedSearchText) ||
-      doctor.specialty.toLowerCase().includes(normalizedSearchText) ||
-      doctor.location.toLowerCase().includes(normalizedSearchText)
-  );
+  // const normalizedSearchText = searchText.toLowerCase();
+  // const filteredDoctors = doctors.filter(
+  //   (doctor) =>
+  //     doctor.name.toLowerCase().includes(normalizedSearchText) ||
+  //     doctor.specialty.toLowerCase().includes(normalizedSearchText) ||
+  //     doctor.location.toLowerCase().includes(normalizedSearchText)
+  // );
+
+  // Matches one or more text (case-insensitive)
+  const searchQuery = new RegExp(`[${searchText}]+`, "i");
+
+  const filteredDoctors = doctors.filter((doctor) => {
+    const fieldsToSearch = [doctor.name, doctor.specialty, doctor.location];
+
+    // If either name, specialty, matches with the query, return it
+    return fieldsToSearch.some((field) => searchQuery.test(field));
+
+    // If only the doctor name should be matched
+    // return searchQuery.test(doctor.name),
+  });
 
   return (
     <View style={styles.container}>
