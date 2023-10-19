@@ -1,7 +1,8 @@
 import React from "react";
+import { View, StatusBar } from "react-native";
+
 import SearchComponent from "../components/SearchComponent";
-import { SafeAreaView, View, StatusBar } from "react-native";
-import { doctors } from "../doctors";
+import { doctors } from "../constants/doctors";
 
 const Search = () => {
   return (
