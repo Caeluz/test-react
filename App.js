@@ -1,20 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from "react";
 
-export default function App() {
+import Home from "./screens/Home";
+import Map from "./screens/Map";
+import PedometerView from "./screens/Pedometer";
+import Steps from "./screens/Steps";
+import Test from "./screens/Test";
+import SleepTracker from "./screens/SleepTracker";
+import Search from "./screens/search";
+
+const Stack = createNativeStackNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Map" component={Map} />
+        <Stack.Screen name="Test" component={Test} />
+        <Stack.Screen name="Pedometer" component={PedometerView} />
+        <Stack.Screen name="Steps" component={Steps} />
+        <Stack.Screen name="Sleep Tracker" component={SleepTracker} />
+        <Stack.Screen name="Search" component={Search} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
