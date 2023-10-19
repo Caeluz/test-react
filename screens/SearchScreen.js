@@ -2,6 +2,7 @@ import React from "react";
 import SearchComponent from "../components/SearchComponent";
 import { SafeAreaView, View, StatusBar } from "react-native";
 import { doctors } from "../doctors";
+import { Button } from "react-native-web";
 
 const Search = () => {
   return (

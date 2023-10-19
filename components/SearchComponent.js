@@ -1,20 +1,39 @@
 import React, { useState } from "react";
-import { View, TextInput, FlatList, Text, StyleSheet } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  StyleSheet,
+  TextInput,
+  Text,
+  View,
+} from "react-native";
+
+import { useNavigation } from "@react-navigation/native";
 
 const SearchComponent = ({ doctors }) => {
   const [searchText, setSearchText] = useState("");
+  const navigation = useNavigation();
 
   const handleSearch = (text) => {
     setSearchText(text);
   };
 
   const normalizedSearchText = searchText.toLowerCase();
+
   const filteredDoctors = doctors.filter(
     (doctor) =>
       doctor.name.toLowerCase().includes(normalizedSearchText) ||
       doctor.specialty.toLowerCase().includes(normalizedSearchText) ||
       doctor.location.toLowerCase().includes(normalizedSearchText)
   );
+  console.log(filteredDoctors);
+
+  const handleDoctorPress = (doctor) => {
+    navigation.navigate("Map", {
+      docLatitude: doctor.latitude,
+      docLongitude: doctor.longitude,
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -36,12 +55,17 @@ const SearchComponent = ({ doctors }) => {
             data={filteredDoctors}
             keyExtractor={(item) => item.name}
             renderItem={({ item }) => (
-              <View style={styles.doctorCard}>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.doctorCard,
+                  pressed ? styles.doctorCardPressed : null,
+                ]}
+                onPress={() => handleDoctorPress(item)}
+              >
                 <Text style={styles.doctorSpecialty}>{item.specialty}</Text>
                 <Text style={styles.doctorName}> {item.name}</Text>
-
                 <Text style={styles.doctorLocation}>{item.location}</Text>
-              </View>
+              </Pressable>
             )}
           />
         )}
@@ -106,6 +130,10 @@ const styles = StyleSheet.create({
   noResultsText: {
     textAlign: "center",
     fontSize: 16,
+  },
+  doctorCardPressed: {
+    // Style to apply when pressed
+    backgroundColor: "lightgray", // Change the background color when pressed
   },
 });
 
