@@ -1,27 +1,37 @@
 export const doctors = [
   {
     name: "Dr. John Doe",
-    specialty: "NURSE",
+    specialty: "Nurse",
     location: "123 Main St, Anytown, USA",
+    latitude: 34.0522,
+    longitude: -1.2,
   },
   {
     name: "Dr. Jane Doe",
-    specialty: "CARDIOLOGIST",
+    specialty: "Cardiologist",
     location: "Angeles City",
+    latitude: 15.140258323558108,
+    longitude: 120.59439213905009,
   },
   {
     name: "Dr. John Smith",
-    specialty: "PEDIATRICIAN",
+    specialty: "Pediatrician",
     location: "123 Main St, Anytown, USA",
+    latitude: 34.0522,
+    longitude: -118.2437,
   },
   {
     name: "Dr. Jane Smith",
-    specialty: "DENTIST",
+    specialty: "Dentist",
     location: "Angeles City",
+    latitude: 34.0522,
+    longitude: -118.2437,
   },
   {
     name: "Dr. Albert",
-    specialty: "NURSE",
+    specialty: "Nurse",
     location: "123 Main St, Anytown, USA",
+    latitude: 34.0522,
+    longitude: -118.2437,
   },
 ];

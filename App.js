@@ -8,7 +8,7 @@ import PedometerView from "./screens/Pedometer";
 import Steps from "./screens/Steps";
 import Test from "./screens/Test";
 import SleepTracker from "./screens/SleepTracker";
-import Search from "./screens/search";
+import Search from "./screens/SearchScreen";
 
 const Stack = createNativeStackNavigator();
 

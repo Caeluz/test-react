@@ -4,8 +4,14 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
-const MapScreen = () => {
+import { doctors } from "../doctors";
+
+const MapScreen = ({ route }) => {
   const [userLocation, setUserLocation] = useState(null);
+  const { docLatitude, docLongitude } = route.params || {
+    docLatitude: null,
+    docLongitude: null,
+  };
 
   const getCurrentLocation = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
@@ -28,19 +34,25 @@ const MapScreen = () => {
       const location = await getCurrentLocation();
       if (location) {
         setUserLocation(location);
-        console.log(location);
       }
     };
 
     fetchUserLocation();
   }, []);
-  console.log(userLocation);
+
   return (
     <View style={styles.container}>
       <MapView
         style={styles.map}
         initialRegion={
-          userLocation
+          docLatitude && docLongitude // Check if docLatitude and docLongitude are not null
+            ? {
+                latitude: docLatitude,
+                longitude: docLongitude,
+                latitudeDelta: 0.0012,
+                longitudeDelta: 0.0171,
+              }
+            : userLocation
             ? {
                 latitude: userLocation.latitude,
                 longitude: userLocation.longitude,
@@ -66,15 +78,32 @@ const MapScreen = () => {
           />
         )}
 
-        <Marker
-          coordinate={{
-            latitude: 15.140258323558108,
-            longitude: 120.59439213905009,
-          }}
-          pinColor="blue"
-          title="Holy Family Medical Center"
-          description="This is a marker in React Native"
-        />
+        {doctors.map((doctor) =>
+          doctor.latitude && doctor.longitude ? (
+            <Marker
+              key={doctor.name} // Add a unique key
+              coordinate={{
+                latitude: doctor.latitude,
+                longitude: doctor.longitude,
+              }}
+              pinColor="blue"
+              title={doctor.name}
+              description={doctor.specialty}
+            />
+          ) : null
+        )}
+
+        {docLatitude && docLongitude && (
+          <Marker
+            coordinate={{
+              latitude: docLatitude,
+              longitude: docLongitude,
+            }}
+            pinColor="blue"
+            title="Doctor's Location"
+            description="This is the doctor's location"
+          />
+        )}
       </MapView>
     </View>
   );
