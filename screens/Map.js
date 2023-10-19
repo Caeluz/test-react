@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
-import { doctors } from "../doctors";
+import { doctors } from "../constants/doctors";
 
 const MapScreen = ({ route }) => {
   const [userLocation, setUserLocation] = useState(null);
@@ -90,7 +90,7 @@ const MapScreen = ({ route }) => {
               title={doctor.name}
               description={doctor.specialty}
             />
-          ) : null
+          ) : null,
         )}
 
         {docLatitude && docLongitude && (
